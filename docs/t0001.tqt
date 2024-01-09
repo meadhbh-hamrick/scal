@@ -1,0 +1,20 @@
+   Refactor to eliminate generators
+
+@@ <status BACKLOG>
+@@ <id "0001">
+
+:: Overview
+
+   As the developer of the ``scal`` utility, I would like
+   to see if it makes the code simpler if I remove the
+   generators so the code is easier to understand.
+
+:: Detail
+
+   In addition to wanting to have a calendar program, I
+   also wanted to play around with Janet generators.
+   While //I// like the result, I want to recode the core
+   logic to not use them, to see if it's easier to
+   comprehend. 
+
+:: Progress

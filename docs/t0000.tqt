@@ -1,0 +1,35 @@
+   Todo Template
+
+@@ <status IGNORE>
+@@ <id "0000">
+
+:: Overview
+
+   As a user of the ``scal`` program, I want to have a
+   template for todo items so there's a better chance they'll
+   be easily digestable by other developers.
+
+:: Detail
+
+   Note that I used the "agile style" user story for the
+   overview.  You don't //have// to use them, but you
+   //should// include:
+
+   ** A one sentence description of the issue.
+
+   ** What class of user is affected.
+   
+   ** The end state you hope to achieve or an acceptance
+      criteria.
+
+   Bonus points if the overview constrains the problem
+   domain to a managable size.  If you can't do this without
+   creating a massively run-on sentence, that's fine.  Do
+   your best and then add detail to the detail section.
+
+:: Progress
+
+   2024-01-08 21:41:13 -0800 [Monday]
+
+   Marking this as IGNORE because we don't want an over-eager
+   tool to delete it.

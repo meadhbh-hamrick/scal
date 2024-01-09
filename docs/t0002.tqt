@@ -1,0 +1,18 @@
+   Highlight Current Date
+
+@@ <status BACKLOG>
+@@ <id "0002">
+
+:: Overview
+
+   As a user of the ``scal`` program, I want the current
+   date to be surrounded by square braces so I can better
+   see where the current date is.
+
+:: Detail
+
+   Not too much to say about this other than it might be
+   a nice feature.
+
+:: Progress
+

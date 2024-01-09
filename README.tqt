@@ -1,0 +1,170 @@
+   scal
+
+   Print out a sideways annual calendar on a narrow, tall
+   terminal window.
+
+:: Introduction
+
+   I live in a terminal window that's 64x48 characters.  The
+   ``cal`` command prints out an annual calendar that's just
+   a bit too wide to be properly formatted on such a
+   terminal.  So I wrote my own.
+
+   The ``scal`` program prints only annual (year) calendars.
+   Unlike ``cal``, it does not print out months.  If you
+   specify a gregorian year as a parameter, it will print a
+   calendar of that year.  If you do not specify a year, it
+   will default to using the current year.
+
+   For example, issuing the command:
+
+   .. scal 1965
+   @@ <caption "Example invocation of the ``scal`` command">
+
+   will produce the output:
+
+   .. 
+   ..      January, 1965      February, 1965     March, 1965     
+   ..                                                               
+   ..   Su --  3 10 17 24 31  --  7 14 21 28 --  --  7 14 21 28 --  
+   ..   Mo --  4 11 18 25 --   1  8 15 22 -- --   1  8 15 22 29 --  
+   ..   Tu --  5 12 19 26 --   2  9 16 23 -- --   2  9 16 23 30 --  
+   ..   We --  6 13 20 27 --   3 10 17 24 -- --   3 10 17 24 31 --  
+   ..   Th --  7 14 21 28 --   4 11 18 25 -- --   4 11 18 25 -- --  
+   ..   Fr  1  8 15 22 29 --   5 12 19 26 -- --   5 12 19 26 -- --  
+   ..   Sa  2  9 16 23 30 --   6 13 20 27 -- --   6 13 20 27 -- --  
+   ..                                                            
+   ..      April, 1965        May, 1965          June, 1965      
+   ..                                                               
+   ..   Su --  4 11 18 25 --  --  2  9 16 23 30  --  6 13 20 27 --  
+   ..   Mo --  5 12 19 26 --  --  3 10 17 24 31  --  7 14 21 28 --  
+   ..   Tu --  6 13 20 27 --  --  4 11 18 25 --   1  8 15 22 29 --  
+   ..   We --  7 14 21 28 --  --  5 12 19 26 --   2  9 16 23 30 --  
+   ..   Th  1  8 15 22 29 --  --  6 13 20 27 --   3 10 17 24 -- --  
+   ..   Fr  2  9 16 23 30 --  --  7 14 21 28 --   4 11 18 25 -- --  
+   ..   Sa  3 10 17 24 -- --   1  8 15 22 29 --   5 12 19 26 -- --  
+   ..                                                            
+   ..      July, 1965         August, 1965       September, 1965 
+   ..                                                               
+   ..   Su --  4 11 18 25 --   1  8 15 22 29 --  --  5 12 19 26 --  
+   ..   Mo --  5 12 19 26 --   2  9 16 23 30 --  --  6 13 20 27 --  
+   ..   Tu --  6 13 20 27 --   3 10 17 24 31 --  --  7 14 21 28 --  
+   ..   We --  7 14 21 28 --   4 11 18 25 -- --   1  8 15 22 29 --  
+   ..   Th  1  8 15 22 29 --   5 12 19 26 -- --   2  9 16 23 30 --  
+   ..   Fr  2  9 16 23 30 --   6 13 20 27 -- --   3 10 17 24 -- --  
+   ..   Sa  3 10 17 24 31 --   7 14 21 28 -- --   4 11 18 25 -- --  
+   ..                                                            
+   ..      October, 1965      November, 1965     December, 1965  
+   ..                                                               
+   ..   Su --  3 10 17 24 31  --  7 14 21 28 --  --  5 12 19 26 --  
+   ..   Mo --  4 11 18 25 --   1  8 15 22 29 --  --  6 13 20 27 --  
+   ..   Tu --  5 12 19 26 --   2  9 16 23 30 --  --  7 14 21 28 --  
+   ..   We --  6 13 20 27 --   3 10 17 24 -- --   1  8 15 22 29 --  
+   ..   Th --  7 14 21 28 --   4 11 18 25 -- --   2  9 16 23 30 --  
+   ..   Fr  1  8 15 22 29 --   5 12 19 26 -- --   3 10 17 24 31 --  
+   ..   Sa  2  9 16 23 30 --   6 13 20 27 -- --   4 11 18 25 -- --  
+   .. 
+   @@ <caption "Example output of the command ``scal 1965``">
+   
+   As you can see, the calendar is "sideways" with respect to
+   the output of the ``cal`` command.  Days of the week are
+   now rows and weeks of the year are now columns.
+
+   ``scal`` does not implement "advanced" features of
+   ``cal`` like:
+
+   ** Printing out only months
+
+   ** Highlighting the current date, easter, etc.
+
+   ** Truncating September 1752 (or any other Julian to
+      Gregorian conversion.)
+
+   I hope to add these features as I find the time.
+
+   Do not depend on the output of ``scal`` for years before
+   the conversion from Julian to Gregorian.  It will likely
+   not give you the results you want.
+
+:: Getting the Code
+
+   The source code for ``scal`` is hosted on GitHub [[@SCAL]].
+
+   Instead of penning a redundant tutorial on using ``git``,
+   I simply refer you to Microsoft's guide [[@ABOUTGIT]].
+
+   But for the impatient, this is how you can git the code if
+   you have a GitHub.Com account:
+
+   .. git clone git@github.com:meadhbh-hamrick/scal.git
+   .. cd scal
+   @@ <caption "Commands for checking out the scal source">
+   
+   The repo currently does not have any sub-projects, so you
+   don't need to do a recursive clone or run the ``git init``
+   command after cloning.
+
+:: Running ``scal``
+
+   Scal is written in the Janet programming language
+   [[@JANET]], so the first way to run ``scal`` is to install
+   Janet and run the ``scal`` script.  If ``janet`` is in
+   your path, you //should// be able to run the script just
+   by typing it's name:
+
+   .. scal
+   .. scal 1965
+   @@ <caption "Command for running scal">
+
+   Janet programs can be compiled into native executables on
+   Linux and Windows [[@JPM]].  I assume this works on other
+   posix compliant platforms like BSD, macOS, Illuminos, etc.
+   As best I can tell, the ``jpm`` build system calls the
+   native compiler and linker, so it //should// work on
+   platforms other than AMD64.
+
+   To build a native executable, use the ``make`` command to
+   run the appropriate ``jpm`` command:
+
+   .. make build
+
+   This should produce a binary in the ``./build``
+   directory.  That binary can be copied anywhere in your
+   path.
+
+:: Notes
+
+   Todo items and bugs are listed in the [[ ./docs ]]
+   directory in the [[ ./docs/todo.tqt ]] and [[
+   ./docs/bugs.tqt ]] files.  To file a bug or add a todo
+   item, create a new branch, add the appropriate
+   ``.tqt`` file in that directory, then send me a pull
+   request.
+
+   Both the ``todo.tqt`` and ``bugs.tqt`` files are indexes
+   referencing numbered files in those directories in the
+   format of ``T####.tqt`` (for todo files) or ``B####.tqt``
+   for bugs.  So your pull request should include a update to
+   either the ``todo.tqt`` or ``bugs.tqt`` file and a new
+   numbered file containing details of the bug or todo item.
+
+   The files [[ ./docs/T0000.tqt ]] and [[ ./docs/B0000.tqt
+   ]] are templates you can copy for bugs or todos.
+
+:: References
+
+   ** SCAL == <website <
+        <title "scal">
+        <url "https://github.com/meadhbh-hamrick/scal">>>
+
+   ** ABOUTGIT = <website <
+        <title "About Git">
+        <url "https://docs.github.com/en/get-started/using-git/about-git">>>
+
+   ** JANET = <website <
+        <title "Janet Programming Language">
+        <url "https://janet-lang.org/index.html">>>
+
+   ** JPM = <website <
+        <title "JPM">
+        <url "https://janet-lang.org/docs/jpm.html">>>

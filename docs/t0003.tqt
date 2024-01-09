@@ -1,0 +1,18 @@
+   Print out individual months
+
+@@ <status CURRENT>
+@@ <id "0003">
+
+:: Overview
+
+   As a user of the ``scal`` program, I want to be able
+   to print out individual months so it's more like the
+   standard ``cal`` program.
+
+:: Detail
+
+:: Progress
+
+   2024-01-08 21:41:13 -0800 [Monday]
+
+   Wondering if I shouldn't do [[0001]] first.

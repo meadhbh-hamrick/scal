@@ -1,0 +1,195 @@
+#!/usr/bin/env janet
+#
+# Copyright (c) 2023, Meadhbh Hamrick
+# All Rights Reserved
+#
+# This program is released under a 3 Clause BSD License,
+# see the LICENSE file for details.
+#
+# scal - print a sideways calendar
+#
+# This command prints an annual calendar where the weeks are
+# columns instead of rows.  For reasons I don't understand,
+# this just looks better to me.
+#
+# To run the command, you need to have janet installed and
+# issue the command like this:
+#
+#   scal [year]
+#
+# Where ``year`` is the year you want to make a calendar of.
+# If you omit it, it prints out this year's calendar.
+
+(def months-of-year
+  '( "January"   "February" "March"     "April"     "May"
+     "June"     "July"     "August"    "September" "October"
+     "November" "December"))
+
+(def oad @[
+  @[ 0 31 ] @[ 3 28 ] @[ 3 31 ]
+  @[ 6 30 ] @[ 1 31 ] @[ 4 30 ]
+  @[ 6 31 ] @[ 2 31 ] @[ 5 30 ]
+  @[ 0 31 ] @[ 3 30 ] @[ 5 31 ] ] )
+
+(defn default-if-nil
+  "Return the parameter passed if it's not nil.  Return the
+   default if it is."
+  [x default]
+  
+  (if (nil? x)
+    default
+    x))
+
+
+(defn year-from-string
+  "Convert the year as a string to a number, returning the
+   default if it doesn't represent a number"
+  [year-string default]
+
+  (default-if-nil (scan-number year-string) default))
+
+
+(defn year-from-args
+  "Given argv and a default value, return argv[1] if it exists,
+   otherwise the default"
+  [args default]
+  
+  (if
+    (> (length args) 1)
+    (year-from-string (args 1) default)
+    default))
+
+
+(defn day-slice
+  [ dow days offset  ]
+
+  (string/format "%s " (string/join
+    (map
+     (fn [x]
+       (def day (+ (+ (* 7 x) (- dow offset)) 1))
+       (cond
+         (> day days) "--"
+         (< day 1) "--"
+         (string/format
+           "%2d" day )))
+     (range 0 6))
+    " "
+    )))
+
+
+(defn gen-month
+  "Generator for printing a month"
+  [month year days start]
+  
+  (fiber/new
+    (fn []
+      (yield (string/format "   %-15s"
+        (string (months-of-year month) ", " year)))
+      (yield "                  ")
+      (yield (day-slice 0 days start))
+      (yield (day-slice 1 days start))
+      (yield (day-slice 2 days start))
+      (yield (day-slice 3 days start))
+      (yield (day-slice 4 days start))
+      (yield (day-slice 5 days start))
+      (yield (day-slice 6 days start))
+      "                  ")))
+
+(defn gen-header
+  "Yield the days of the week."
+  []
+
+  (fiber/new
+    (fn []
+      (yield "  ")
+      (yield "     ")
+      (yield "  Su ")
+      (yield "  Mo ")
+      (yield "  Tu ")
+      (yield "  We ")
+      (yield "  Th ")
+      (yield "  Fr ")
+      (yield "  Sa ")
+      "  ")))
+
+(defn print-quarter
+  "Prints the specified quarter"
+  [quarter year dpm starts]
+
+  (def header (gen-header))
+  (def months (array/new 3))
+  
+  (loop [ i :range [0 3]]
+    (put months i (gen-month (+ i (* 3 quarter)) year (in dpm i) (in starts i))))
+
+  (while (not (= :dead (fiber/status header)))
+    (prin (resume header))
+    (each month months (prin (resume month) " "))
+    (print))
+)
+
+(defn
+  first-day-of-year
+  "What day does a given year start on?"
+  [year]
+  (%
+    (+
+      1
+      (math/floor (* (% (- year 1) 100) 1.25))
+      (math/floor (* (math/floor (/ (- year 1) 100)) 5.25))
+      )
+    7))
+
+(defn
+  starting-day-of-month
+  [dpm month start starts]
+
+  (if
+    (> month 11)
+      starts
+      (do
+        (put starts month start)
+        (starting-day-of-month dpm (+ 1 month) (% (+ (dpm month) start) 7) starts)
+        )))
+
+(defn
+  leap?
+  "Is the given year a leap year?"
+  [year]
+  (or
+    (= 0 (% year 400))
+    (and
+      (= 0 (% year 4))
+      (not (= 0 (% year 100))))))
+
+(defn
+  days-in-february
+  "Given a year, how many days are in February?"
+  [year]
+  (if
+    (leap? year)
+    29
+    28))
+
+(defn
+  days-per-month
+  "Given a year, how many days are in each month?"
+  [year]
+  @[ 31 (days-in-february year) 31 30 31 30 31 31 30 31 30 31 ] )
+
+
+(defn main [& args]
+  (def year (year-from-args (dyn :args) ((os/date) :year)))
+  (def dpm (days-per-month year))
+  (def starts (starting-day-of-month dpm 0 (first-day-of-year year) @()))
+
+  (print "")
+
+  (loop
+    [ quarter :range [ 0 4 ] ]
+    (def start (* 3 quarter))
+    (def end (+ 3 start))
+    (print-quarter
+      quarter year
+      (array/slice dpm start end)
+      (array/slice starts start end))))
