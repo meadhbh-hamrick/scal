@@ -11,4 +11,9 @@
    || [[t0002]] || BACKLOG || Highlight Current Date         ||
    ++-----------++---------++--------------------------------++
    || [[t0003]] || CURRENT || Print out individual months    ||
+   ++-----------++---------++--------------------------------++
+   || [[t0004]] || CURRENT || In README.md, convert Figure 2 ||
+   ||           ||         || to an image because markdown   ||
+   ||           ||         || can't figure out how to render ||
+   ||           ||         || it.                            ||
    ++===========++=========++================================++

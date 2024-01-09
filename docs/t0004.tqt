@@ -1,0 +1,22 @@
+   Convert Figure 2 to Image
+
+@@ <status CURRENT>
+@@ <id "0004">
+
+:: Overview
+
+   As a reader of the ``scal`` README, convert the
+   Figure 2 preformatted text into an image, so it looks
+   vaguely like the output produced by the program.
+
+:: Detail
+
+   Markdown seems to generate random output as there are
+   no standards for rendering its grammar into readable
+   HTML.
+
+:: Progress
+
+   2024-01-08 22:14:13 -0800 [Monday]
+
+   Gripe about Markdown.
